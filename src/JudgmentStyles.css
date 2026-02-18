@@ -1,0 +1,290 @@
+:root {
+    --judgment-bg: radial-gradient(circle at center, #1a1c2c, #0d0e14);
+    --oodaro-color: #60a5fa;
+    --not-oodaro-color: #f87171;
+    --random-color: #94a3b8;
+    --overlay-bg: rgba(0, 0, 0, 0.8);
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --text-white: #ffffff;
+    --transition-smooth: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    --oodaro-red: #ff4d4d;
+    --not-oodaro-blue: #4dabff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #0d0e14;
+    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "BIZ UDPGothic", Meiryo, sans-serif;
+}
+
+.judgment-container {
+    width: 100%;
+    height: 100dvh;
+    /* 動的ビューポート単位を使用 */
+    background: var(--judgment-bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    color: var(--text-white);
+}
+
+/* メイン画面のボタンレイアウト */
+.button-group {
+    display: flex;
+    gap: 2rem;
+    z-index: 10;
+}
+
+.judgment-btn {
+    padding: 1.5rem 2.5rem;
+    border: none;
+    border-radius: 16px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.btn-oodaro {
+    background-color: var(--oodaro-color);
+    color: white;
+}
+
+.btn-random {
+    background-color: var(--random-color);
+    color: white;
+}
+
+.btn-not-oodaro {
+    background-color: var(--not-oodaro-color);
+    color: white;
+}
+
+.judgment-btn:hover {
+    transform: translateY(-8px);
+    filter: brightness(1.2);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* 演出画面（オーバーレイ） */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--overlay-bg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.production-layer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+.production-msg {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    letter-spacing: 0.2rem;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+/* 待機画面のアニメーション */
+.waiting-anim {
+    font-size: 1.5rem;
+    font-style: italic;
+    animation: pulse 1.5s infinite;
+    z-index: 110;
+}
+
+/* 結果表示 */
+.result-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    z-index: 200;
+    animation: zoomIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.result-symbol {
+    font-size: 12rem;
+    line-height: 1;
+    font-weight: 900;
+}
+
+.symbol-o {
+    color: var(--oodaro-red);
+}
+
+.symbol-x {
+    color: var(--not-oodaro-blue);
+}
+
+.result-display {
+    font-size: 4rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+/* 弾幕演出 */
+.danmaku-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 150;
+    overflow: hidden;
+}
+
+.danmaku-item {
+    position: absolute;
+    white-space: nowrap;
+    font-size: 2rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.7);
+    animation: danmaku-move 4s linear both;
+}
+
+@keyframes danmaku-move {
+    from {
+        transform: translateX(100vw);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+/* 閉じるボタン */
+.close-btn {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--glass-border);
+    border-radius: 50%;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: var(--transition-smooth);
+    z-index: 1000;
+}
+
+.close-btn:hover {
+    background: rgba(255, 0, 0, 0.3);
+    transform: rotate(90deg);
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.5;
+        transform: scale(0.95);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    100% {
+        opacity: 0.5;
+        transform: scale(0.95);
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* モバイル対応 */
+@media (max-width: 600px) {
+    .button-group {
+        flex-direction: column;
+        gap: 1.5rem;
+        width: 80%;
+    }
+
+    .judgment-btn {
+        width: 100%;
+        padding: 1.25rem;
+        font-size: 1.1rem;
+    }
+
+    .production-msg {
+        font-size: 1.5rem;
+        text-align: center;
+        padding: 0 1rem;
+    }
+
+    .result-symbol {
+        font-size: 8rem;
+    }
+
+    .result-display {
+        font-size: 2rem;
+        text-align: center;
+        padding: 0 1rem;
+    }
+
+    .close-btn {
+        top: 1rem;
+        right: 1rem;
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+
+    .danmaku-item {
+        font-size: 1.2rem;
+    }
+}
